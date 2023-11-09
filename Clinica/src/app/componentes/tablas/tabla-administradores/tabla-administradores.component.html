@@ -1,0 +1,52 @@
+<div>
+    <table style="background-color: aqua;width: 100%; text-align: center; min-width: 1000px;">
+        <tr>
+            <th colspan="6" style="text-align: center;background-color: red;">
+                ADMINISTRADORES
+            </th>
+        </tr>
+    
+        <tr>
+           <th>
+            NOMBRE
+           </th>
+           <th>
+            APELLIDO
+           </th>
+           <th>
+            EDAD
+           </th>
+           <th>
+            DNI
+           </th>
+           <th>
+            MAIL
+           </th>
+           <th>
+            IMAGEN
+           </th>
+        </tr>
+    
+        <tr *ngFor="let administrador of administradores" style="height: 100px">
+            <td>{{administrador.Nombre}}</td>
+            <td>{{administrador.Apellido}}</td>
+            <td>{{administrador.Edad}}</td>
+            <td>{{administrador.DNI}}</td>
+            <td>{{administrador.Mail}}</td>
+            <td><img src={{administrador.UrlImagen}} alt="100px" width="50px"></td>
+        </tr>
+    
+        <!--
+        <tr *ngFor="let pelicula of peliculas">
+            <td>{{pelicula.id}}</td>
+            <td>{{pelicula.getNombre()}}</td>
+            <td>{{pelicula.getTipo()}}</td>
+            <td>{{pelicula.getFechaEstreno()}}</td>
+            <td>{{pelicula.getCantidadPublico()}}</td>
+            <td>{{pelicula.getFoto()}}</td>
+        </tr>
+        -->
+    
+    </table>
+    
+</div>

@@ -1,0 +1,45 @@
+<div>
+    <table style="background-color: aqua;width: 100%; text-align: center; min-width: 1000px;">
+        <tr>
+            <th colspan="8" style="text-align: center;background-color: red;">
+                PACIENTES
+            </th>
+        </tr>
+    
+        <tr>
+           <th>
+            NOMBRE
+           </th>
+           <th>
+            APELLIDO
+           </th>
+           <th>
+            EDAD
+           </th>
+           <th>
+            DNI
+           </th>
+           <th>
+            MAIL
+           </th>
+           <th>
+            OBRA SOCIAL
+           </th>
+           <th colspan="2">
+            IMAGENES
+           </th>
+        </tr>
+    
+        <tr *ngFor="let paciente of pacientes" style="height: 100px">
+            <td>{{paciente.Nombre}}</td>
+            <td>{{paciente.Apellido}}</td>
+            <td>{{paciente.Edad}}</td>
+            <td>{{paciente.DNI}}</td>
+            <td>{{paciente.Mail}}</td>
+            <td>{{paciente.ObraSocial}}</td>
+            <td *ngFor="let imagen of paciente.UrlsImagenes">
+                <img src={{imagen}} alt="100px" width="50px">
+            </td>
+        </tr>
+    </table>
+</div>

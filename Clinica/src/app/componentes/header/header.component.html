@@ -1,0 +1,41 @@
+<header class="d-flex justify-content-center py-3 bg-dark">
+    <ul class="nav nav-pills">
+
+        <li class="nav-item">
+            <label class="button-NombreEmpresa">Clinica la buena vida</label>
+        </li>
+
+        <section *ngIf="this.servicioUsuario.EstaLogueado; then verdadero"></section>
+
+       <ng-template #verdadero>
+        <li class="nav-item"> 
+            <button class="button-40" role="button" routerLink="/home">Home</button>
+        </li>
+
+        <li class="nav-item">
+            <label class="label-Nombre">{{this.servicioUsuario.usuarioLogueado.Nombre}}</label>
+        </li>
+
+        <li class="nav-item"> 
+            <button class="button-LogOut" role="button" (click)="this.preguntarCerrarSesion()">Cerrar sesion</button>
+        </li>
+       </ng-template>
+
+    </ul>
+</header>
+
+<!-- 
+       <ng-template *ngSwitch="servicioUsuario.usuarioLogueado.Tipo">
+        <section *ngSwitchCase="1">
+            <li class="nav-item"><button class="button-40" role="button">Proximamente</button></li>
+        </section>
+
+        <section *ngSwitchCase="2">
+            <li class="nav-item"><button class="button-40" role="button">Proximamente</button></li>
+        </section>
+
+        <section *ngSwitchCase="3">
+            <li class="nav-item"><button class="button-40" role="button">Usuarios</button></li>
+        </section>
+    </ng-template>
+-->

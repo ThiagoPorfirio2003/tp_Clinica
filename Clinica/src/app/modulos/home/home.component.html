@@ -1,0 +1,20 @@
+<div class="container principal-box position-absolute top-50 start-50 translate-middle"
+  *ngIf="this.servicioNavegacion.RutaActual == '/home'">
+  <div *ngIf="this.servicioUsuario.usuarioLogueado.Tipo==3">
+        <div class="row py-1">
+            <div class="col-6">
+                <H3 style="text-align: center;">Lista de usuarios</H3>
+                <img src="../../../assets/usuarios.jpg">
+                <button class="button-40" routerLink="listaUsuarios">Entrar</button>
+            </div>
+
+            <div class="col-6">
+              <H3 style="text-align: center;">Crear usuarios</H3>
+              <img src="../../../assets/nuevoUsuario.png">
+              <button class="button-40" >Entrar</button>
+          </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,57 @@
+<div class="container-sm formulario">
+    <form enctype="multipart/form-data" [formGroup]="this.formularioLogin">
+        <button class="button-40 py-2" (click)="this.pasarDatosLogIn()">Entrar</button>
+
+        <div class="px-4 pt-2">
+            <label for="mail">Mail</label>
+            <input type="email" class="input-text" id="mail" aria-describedby="emailHelp" formControlName="mail">
+
+            <ul class="list-group" *ngIf="this.formularioLogin.controls['mail'].errors != null">
+                <li *ngIf="this.formularioLogin.controls['mail'].errors!['required'] && this.formularioLogin.controls['mail'].touched">
+                  Este campo no puede estar vacio
+                </li>
+
+                <li *ngIf="this.formularioLogin.controls['mail'].errors!['email']">
+                  El mail ingresado es invalido
+                </li>
+            </ul>
+        </div>
+
+        <div class="px-4 pt-2 pb-4">
+            <label for="clave">Clave</label>
+            <input type="password" class="input-text" id="clave" formControlName="clave">
+
+            <ul class="list-group" *ngIf="this.formularioLogin.controls['clave'].errors != null">
+                <li *ngIf="this.formularioLogin.controls['clave'].errors!['required'] && this.formularioLogin.controls['clave'].touched">
+                Este campo no puede estar vacio
+                </li>
+
+                <li *ngIf="this.formularioLogin.controls['clave'].errors!['minlength']">
+                    La clave no puede tener menos de 6 caracteres
+                </li>
+            </ul>
+        </div>
+
+        <div class="btn-group" role="group" style="width: 100%;">
+            <button class="button-recomendacion" (click)="this.cargarPaciente()">Paciente</button>
+            <button class="button-recomendacion" (click)="this.cargarEspecialista()">Especialista</button>
+            <button class="button-recomendacion" (click)="this.cargarAdmin()">Admin</button>
+        </div>
+
+        <!-- 
+<div class="row">
+            <div class="col-4 px-0">
+                <button class="button-40 py-2" (click)="this.cargarPaciente()">Paciente</button>
+            </div>
+
+            <div class="col-4 px-0">
+                <button class="button-40 py-2" (click)="this.cargarEspecialista()">Especialista</button>
+            </div>
+
+            <div class="col-4 px-0">
+                <button class="button-40 py-2" (click)="this.cargarAdmin()">Admin</button>
+            </div>
+        </div>
+        -->
+    </form>
+</div>

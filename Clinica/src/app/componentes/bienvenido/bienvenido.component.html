@@ -1,0 +1,38 @@
+<!-- <div class="container position-relative">
+    <div style="background-image: url(./assets/medicos.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;height: 100%;">
+            <img src='./assets/medicos.jpg' alt="" style="width: 100%;">
+
+ -->
+<div class="position-absolute top-50 start-50 translate-middle" >
+    <div class>
+        <app-register *ngIf="this.quiereRegistrarse" (pasarDatosRegistroEvent)="this.crearUsuario($event)"
+        [tipoUsuarioLogueado]="this.servicioUsuario.usuarioLogueado.Tipo">
+
+        </app-register>
+        
+        <app-login *ngIf="!this.quiereRegistrarse" (pasarDatosInicioEvent)="this.ingresarDatos($event)" >
+            
+        </app-login>
+    </div>
+
+
+    <div class="row">
+        <div class="col pe-0">
+            <button class="button-40" style="width: 100%;" (click)="this.quiereRegistrarse=false">Iniciar sesion</button>
+        </div>
+
+        <div class="col ps-0">
+            <button class="button-40" style="width: 100%;" (click)="this.quiereRegistrarse=true">Registrarse</button>
+        </div>
+    </div>
+</div>
+    
+<!-- 
+<div class="container-fluid" style="width:100%; height:100%; background-color: red;color: red;">
+    hols
+</div>
+-->
+
+
+
+

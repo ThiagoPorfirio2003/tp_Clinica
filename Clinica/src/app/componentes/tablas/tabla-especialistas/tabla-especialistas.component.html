@@ -1,0 +1,50 @@
+<div>
+    <table style="background-color: aqua;width: 100%; text-align: center; min-width: 1000px;">
+        <tr>
+            <th colspan="8" style="text-align: center;background-color: red;">
+                ESPECIALISTAS
+            </th>
+        </tr>
+    
+        <tr>
+           <th>
+            NOMBRE
+           </th>
+           <th>
+            APELLIDO
+           </th>
+           <th>
+            EDAD
+           </th>
+           <th>
+            DNI
+           </th>
+           <th>
+            MAIL
+           </th>
+           <th>
+            ESPECIALIDAD
+           </th>
+           <th>
+            IMAGEN
+           </th>
+           <th>
+            Estado
+           </th>
+        </tr>
+    
+        <tr *ngFor="let especialista of especialistas" style="height: 100px">
+            <td>{{especialista.nombre}}</td>
+            <td>{{especialista.apellido}}</td>
+            <td>{{especialista.edad}}</td>
+            <td>{{especialista.dni}}</td>
+            <td>{{especialista.mail}}</td>
+            <td>{{especialista.especialidad}}</td>
+            <td><img src={{especialista.urlImagen}} alt="100px" width="50px"></td>
+            <td><button (click)="this.pasarEspecialista(especialista)"> 
+                <p *ngIf="especialista.estaHabilitado;else habilitar">DesHabilitar</p>
+                <ng-template #habilitar>Habilitar</ng-template> 
+            </button></td>
+        </tr>
+    </table>
+</div>
