@@ -19,7 +19,7 @@ import { HeaderComponent } from './componentes/header/header.component';
     BienvenidoComponent,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent  
   ],
   imports: [
     BrowserModule,

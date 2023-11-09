@@ -1,0 +1,205 @@
+<div class="container-sm registro">
+    <form enctype="multipart/form-data" [formGroup]="formularioInscripcionGeneral">
+        <button class="button-40 py-2" (click)="this.pasarDatosRegistro()">Crear {{this.tipoUsuarioTXT}}</button>
+
+        <div class="row py-1">
+            <div class="col-6">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="input-text" id="nombre" formControlName="nombre">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['nombre'].errors != null && 
+                this.formularioInscripcionGeneral.controls['nombre'].touched">
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['nombre'].errors!['required']">
+                        Este campo no puede estar vacio
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['nombre'].errors!['minlength']">
+                        El nombre debe tener al menos 2 letras
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['nombre'].errors!['pattern']">
+                        El nombre debe tener solo letras y espacios 
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['nombre'].errors!['maxlength']">
+                        El nombre no puede tener mas de 20 letras
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6">
+                <label for="apellido" >Apellido</label>
+                <input type="text" class="input-text" id="apellido" formControlName="apellido">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['apellido'].errors != null && 
+                this.formularioInscripcionGeneral.controls['apellido'].touched">
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['apellido'].errors!['required']">
+                        Este campo no puede estar vacio
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['apellido'].errors!['minlength']">
+                        El apellido debe tener al menos 2 letras
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['apellido'].errors!['pattern']">
+                        El apellido debe tener solo letras y espacios 
+                    </li>
+        
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['apellido'].errors!['maxlength']">
+                        El apellido no puede tener mas de 20 letras
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row py-1">
+            <div class="col-6">
+                <label for="edad">Edad</label>
+                <input type="number" class="input-text" id="edad" formControlName="edad">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['edad'].errors != null && 
+                this.formularioInscripcionGeneral.controls['edad'].touched">
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['edad'].errors!['required']">
+                        Este campo no puede estar vacio
+                    </small>
+        
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['edad'].errors!['min']">
+                        La edad tiene que ser mayor o igual a 18 años
+                    </small>
+        
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['edad'].errors!['pattern']">
+                        Solo se pueden ingresar numeros enteros
+                    </small>
+                </ul>
+            </div>
+            
+            <div class="col-6">
+                <label for="DNI">DNI</label>
+                <input type="number" class="input-text" id="DNI" formControlName="dni">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['dni'].errors != null && 
+                this.formularioInscripcionGeneral.controls['dni'].touched">
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['dni'].errors!['required']">
+                        Este campo no puede estar vacio
+                    </small>
+        
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['dni'].errors!['min']">
+                        La DNI tiene que ser mayor o igual a 20 millones
+                    </small>
+        
+                    <small style="color: red;" *ngIf="this.formularioInscripcionGeneral.controls['dni'].errors!['pattern']">
+                        Solo se pueden ingresar numeros enteros
+                    </small>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row py-1">
+            <div class="col-6">
+                <label for="mail" >Mail</label>
+                <input type="email" class="input-text" id="mail" aria-describedby="emailHelp" formControlName="mail">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['mail'].errors != null">
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['mail'].errors!['required'] && this.formularioInscripcionGeneral.controls['mail'].touched">
+                      Este campo no puede estar vacio
+                    </li>
+    
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['mail'].errors!['email']">
+                      El mail ingresado es invalido
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-6">
+                <label for="clave">Clave</label>
+                <input type="password" class="input-text" id="clave" formControlName="clave">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['clave'].errors != null">
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['clave'].errors!['required'] && this.formularioInscripcionGeneral.controls['clave'].touched">
+                    Este campo no puede estar vacio
+                    </li>
+
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['clave'].errors!['minlength']">
+                        La clave no puede tener menos de 6 caracteres
+                    </li>
+			    </ul>
+            </div>
+        </div>
+
+        <div class="row py-1">
+            <div class="col-5 align-self-end">
+                <label for="selector_TipoUsuario">Tipo de usuario</label>
+                <select style="width: 100%;" size="1" id="selector_TipoUsuario" (change)="this.cambiarTipoUsuario('selector_TipoUsuario')">
+                    <option value="1">Paciente</option>
+                    <option value="2">Especialista</option>
+                    <option value="3" *ngIf="this.tipoUsuarioLogueado ==3">Administrador</option>
+                </select>
+            </div>
+            
+            <div class="col-7">
+                <label for="imagenes_usuario">{{this.txtLabelImagenes}}</label>
+                <input type="file" accept=".png, .jpg, .jpeg" id="imagenes_usuario" name="imagenes[]" multiple formControlName="imagenes"
+                (change)="this.recibirArchivos($event)">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionGeneral.controls['imagenes'].errors != null">
+                    <li *ngIf="this.formularioInscripcionGeneral.controls['imagenes'].errors!['required'] && 
+                    this.formularioInscripcionGeneral.controls['imagenes'].touched">
+                    Este campo no puede estar vacio
+                    </li>
+			    </ul>
+            </div>
+        </div>
+    </form>
+
+    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioNumerico==1" [formGroup]="this.formularioInscripcionPaciente">
+        <div class="row pb-3">
+            <div class="col-4">
+                <label for="obra_Social">Obra social</label>
+                <input class="input-text" type="number" id="obra_Social" name="obra_Social" formControlName="obraSocial">
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionPaciente.controls['obraSocial'].errors != null">
+                    <li *ngIf="this.formularioInscripcionPaciente.controls['obraSocial'].errors!['required'] && 
+                    this.formularioInscripcionPaciente.controls['obraSocial'].touched">
+                        Este campo no puede estar vacio
+                    </li>
+
+                    <li *ngIf="this.formularioInscripcionPaciente.controls['obraSocial'].errors!['min']">
+                        La obra social no puede ser inferior a 20 millones
+                    </li>
+
+                    <li *ngIf="this.formularioInscripcionPaciente.controls['obraSocial'].errors!['pattern']">
+                        La obra social solo puede tener numeros
+                    </li>
+			    </ul>
+            </div>
+        </div>
+    </form>
+
+    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioNumerico==2" [formGroup]="this.formularioInscripcionEspecialista">
+        <div class="row pb-3" >
+            <div class="col-4">
+                <label for="nuevaEspecialidad">Nueva especialidad</label>
+                <input type="text" class="input-text" id="nuevaEspecialidad" name="nuevaEspecialidad">
+            </div>
+
+            <div class="col-4 align-self-end">
+                <button class="button-40" (click)="this.agregarEspecialidad()">Agregar especialidad</button>
+            </div>
+
+            <div class="col-4 align-self-end">
+                <label for="select_especialidades">Especialidad</label>
+                <select class="selector_especialidades" id="select_especialidades" size="1" formControlName="especialidad">
+                    <option *ngFor="let especialidad of this.especialidades" value={{especialidad.nombre}}>{{especialidad.nombre}}</option>
+                </select>
+
+                <ul class="list-group" *ngIf="this.formularioInscripcionEspecialista.controls['especialidad'].errors != null">
+                    <li *ngIf="this.formularioInscripcionEspecialista.controls['especialidad'].errors!['required'] && 
+                    this.formularioInscripcionEspecialista.controls['especialidad'].touched">
+                        Este campo no puede estar vacio
+                    </li>
+			    </ul>
+            </div>
+        </div>
+    </form>
+
+</div>

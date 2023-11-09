@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { RegistroAdminRoutingModule } from './registro-admin-routing.module';
 import { RegistroAdminComponent } from './registro-admin.component';
-import { RegisterComponent } from 'src/app/componentes/register/register.component';
-
+import { AdminRegisterComponent } from '../../componentes/admin-register/admin-register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
+  declarations: 
+  [
     RegistroAdminComponent,
-    RegisterComponent
+    AdminRegisterComponent
   ],
   imports: [
     CommonModule,
-    RegistroAdminRoutingModule
+    RegistroAdminRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class RegistroAdminModule { }
