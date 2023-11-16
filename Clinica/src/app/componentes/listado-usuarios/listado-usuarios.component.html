@@ -1,0 +1,48 @@
+HOOLA
+<table class="table">
+    <tr>
+        <td>
+            <button>Perfil</button>
+        </td>
+
+        <td>
+            Nombre
+        </td>
+
+        <td>
+            Apellido
+        </td>
+
+        <td>
+            Edad
+        </td>
+
+        <td>
+            DNI
+        </td>
+
+        <td>
+            Mail
+        </td>
+
+        <td>
+            Tipo
+        </td>
+
+        <td>
+            Habilitado
+        </td>
+    </tr>
+
+    <tr *ngFor="let usuario of usuarios">
+        <th>
+            {{usuario.nombre}}
+        </th>
+
+        <div [ngSwitch]="usuario.tipo">
+            <th *ngSwitchCase="1">Paciente</th>
+            <th *ngSwitchCase="2">Especialista</th>
+            <th *ngSwitchCase="3">Administrador</th>
+        </div>
+    </tr>
+</table>

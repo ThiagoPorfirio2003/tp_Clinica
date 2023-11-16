@@ -2,17 +2,14 @@ import { UsuarioBase } from "./usuarioBase";
 
 export class Paciente extends UsuarioBase
 {
-    //finn : 123456
-    //korexe9289@eazenity.com
-    
     private obraSocial : string;
     private listUrlImagen : Array<string>;
     private listPathImagen : Array<string>;
 
     constructor(id : string, nombre : string, apellido : string, edad : number, dni : string,mail : string,
-        obraSocial : string, listPathImagen : Array<string> = [], listUrlImagen : Array<string> = [])
+      estaHabilitado : boolean, obraSocial : string, listPathImagen : Array<string> = [], listUrlImagen : Array<string> = [])
     {
-        super(id, nombre, apellido, edad, dni, mail, 1);
+        super(id, nombre, apellido, edad, dni, mail, 1, estaHabilitado);
         this.obraSocial = obraSocial;
         this.listUrlImagen = listUrlImagen;
         this.listPathImagen = listPathImagen;
@@ -35,6 +32,6 @@ export class Paciente extends UsuarioBase
 
     public static getDefaultPaciente() : Paciente
     {
-        return new Paciente('','','',0,'','','', [],[]);
+        return new Paciente('','','',0,'','',true,'', [],[]);
     }
 }

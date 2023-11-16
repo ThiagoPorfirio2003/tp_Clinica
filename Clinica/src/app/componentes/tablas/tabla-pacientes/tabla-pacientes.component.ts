@@ -12,6 +12,6 @@ export class TablaPacientesComponent {
   constructor()
   {
     this.pacientes = new Array<Paciente>();
-  //  this.pasarAdministradorEvent = new EventEmitter<Administrador>();
+//  this.pasarAdministradorEvent = new EventEmitter<Administrador>();
   }
 }

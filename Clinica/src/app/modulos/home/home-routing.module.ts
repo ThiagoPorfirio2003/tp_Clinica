@@ -7,7 +7,8 @@ const routes: Routes =
   { path: '', component: HomeComponent,
   children: 
   [
-    { path: 'listaUsuarios', loadChildren: () => import('../listado-usuarios/listado-usuarios.module').then(m => m.ListadoUsuariosModule) },
+    { path: 'listaUsuarios', loadChildren: () => import('../mostrar-totalidad-usuarios/mostrar-totalidad-usuarios.module').then(m => m.MostrarTotalidadUsuariosModule) },
+   // { path: 'listaUsuarios', loadChildren: () => import('../listado-usuarios/listado-usuarios.module').then(m => m.ListadoUsuariosModule) },
     { path: 'resgistroAdmin', loadChildren: () => import('../registro-admin/registro-admin.module').then(m => m.RegistroAdminModule) },  
   ] 
   },

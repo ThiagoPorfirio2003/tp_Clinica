@@ -2,13 +2,13 @@ import { UsuarioBase } from "./usuarioBase";
 
 export class Administrador extends UsuarioBase
 {
-    //ysckha0grj@myinfoinc.com
     private urlImagen : string; 
     private pathImagen : string;
 
-    constructor(id : string, nombre : string, apellido : string, edad : number, dni : string, mail : string, pathImagen : string='', urlImagen : string='')
+    constructor(id : string, nombre : string, apellido : string, edad : number, dni : string, mail : string, estaHabilitado : boolean
+        ,pathImagen : string='', urlImagen : string='')
     {
-        super(id, nombre, apellido, edad, dni, mail, 3);
+        super(id, nombre, apellido, edad, dni, mail, 3, estaHabilitado);
         this.urlImagen = urlImagen;
         this.pathImagen = pathImagen;
     }

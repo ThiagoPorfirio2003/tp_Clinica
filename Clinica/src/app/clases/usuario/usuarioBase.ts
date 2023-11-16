@@ -18,8 +18,9 @@ export class UsuarioBase
   //  private fechaDeCreacion : Date;
     private tipo : number;
     private id : string;
+    private estaHabilitado : boolean;
 
-    protected constructor(id : string, nombre : string, apellido : string, edad : number, dni : string,mail : string, tipo : number)
+    protected constructor(id : string, nombre : string, apellido : string, edad : number, dni : string,mail : string, tipo : number, estaHabilitado : boolean)
     {
         this.id = id;
         this.nombre = nombre;
@@ -27,13 +28,13 @@ export class UsuarioBase
         this.edad = edad;
         this.dni = dni;
         this.mail = mail;
-    //    this.fechaDeCreacion = new Date();
         this.tipo = tipo;
+        this.estaHabilitado = estaHabilitado;
     }
 
     public obtenerDefaultUsuario()
     {
-        return new UsuarioBase('','','',0,'','',0)
+        return new UsuarioBase('','','',0,'','',0, true)
     }
 
     public get Id() : string
@@ -66,37 +67,18 @@ export class UsuarioBase
         return this.mail;
     }
 
-    /*
-    public get FechaCreacion() : Date
-    {
-        return this.fechaDeCreacion;
-    }*/
-
     public get Tipo() : number
     {
         return this.tipo;
     }
-    //admin1234
-    //normal1234
-    //thiago1234
-    //mauro1234
 
-    /*
-    public constructor(nombre : string, apellido : string, nombreUsuario : string, mail : string, fechaDeCreacion : Date, tipo : number)//, ultimaConexion : Date)
+    public get EstaHabilitado() : boolean
     {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.nombreUsuario = nombreUsuario;
-        this.mail = mail;
-        this.fechaDeCreacion = fechaDeCreacion;
-        this.tipo = tipo;
-    }
-    
-    public static getDefaultUser() : Usuario
-    {
-        return new Usuario("","","","",new Date(), 1);
+        return this.estaHabilitado;
     }
 
-    
-    */
+    public set EstaHabilitado(estaHabilitado : boolean)
+    {
+        this.estaHabilitado = estaHabilitado;
+    }
 }

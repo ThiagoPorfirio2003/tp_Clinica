@@ -19,16 +19,14 @@ export class Especialista extends UsuarioBase
     private urlImagen : string; 
     private pathImagen : string;
     private especialidad : string
-    private estaHabilitado : boolean;
 
     constructor(id: string, nombre : string, apellido : string, edad : number, dni : string,mail : string,
-        especialidad : string, estaHabilitado : boolean, pathImagen : string='',  urlImagen : string='')
+        estaHabilitado : boolean, especialidad : string, pathImagen : string='',  urlImagen : string='')
     {
-        super(id, nombre, apellido, edad, dni, mail, 2);
+        super(id, nombre, apellido, edad, dni, mail, 2, estaHabilitado);
         this.urlImagen = urlImagen;
         this.pathImagen = pathImagen;
         this.especialidad = especialidad;
-        this.estaHabilitado = estaHabilitado;
     }
 
     public get Especialidad() : string
@@ -46,11 +44,6 @@ export class Especialista extends UsuarioBase
         return this.pathImagen;
     }
 
-    public get EstaHabilitado() : boolean
-    {
-        return this.estaHabilitado;
-    }
-
     public set UrlImagen(nuevaUrl : string)
     {
         this.urlImagen = nuevaUrl;
@@ -61,13 +54,8 @@ export class Especialista extends UsuarioBase
         this.pathImagen = nuevoPath;
     }
 
-    public set EstaHabilitado(estaHabilitado : boolean)
-    {
-        this.estaHabilitado = estaHabilitado;
-    }
-
     public static getDefaultEspecialista() : Especialista
     {
-        return new Especialista('','','',0,'','','',false,'','');
+        return new Especialista('','','',0,'','',false,'','','');
     }
 }

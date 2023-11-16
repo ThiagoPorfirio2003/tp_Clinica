@@ -3,6 +3,7 @@ import { Firestore, collection, collectionData, doc, setDoc, updateDoc, getDoc, 
 import { Administrador } from '../clases/usuario/administrador';
 import { Paciente } from '../clases/usuario/paciente';
 import { Especialista } from '../clases/usuario/Especialista';
+import { UsuarioBase } from '../clases/usuario/usuarioBase';
 
 
 @Injectable({
@@ -212,13 +213,13 @@ export class DataBaseService {
     return getDoc(doc(this.firestore, nombreCollection, idDoc));
   }
 
-  public actualizarHabilitadoEspecialista(especialista : Especialista)
+  public actualizarHabilitado(nombreCollection : string ,usuarioBase : UsuarioBase)
   {
-    const docRef = doc(this.firestore, this.nombreEspecialidadesCollection, especialista.Id);
+    const docRef = doc(this.firestore, nombreCollection, usuarioBase.Id);
 
     return updateDoc(docRef, 
       {
-        estaHabilitado : especialista.EstaHabilitado
+        estaHabilitado : usuarioBase.EstaHabilitado
       });
   }
 }

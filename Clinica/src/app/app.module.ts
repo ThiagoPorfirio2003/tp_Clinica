@@ -12,12 +12,14 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './componentes/header/header.component';
+//import { ListadoUsuariosComponent } from './componentes/listado-usuarios/listado-usuarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BienvenidoComponent,
-    HeaderComponent  
+    HeaderComponent//,
+ //   ListadoUsuariosComponent  
   ],
   imports: [
     BrowserModule,

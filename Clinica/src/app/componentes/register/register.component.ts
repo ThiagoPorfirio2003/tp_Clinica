@@ -265,7 +265,7 @@ export class RegisterComponent
     .then((credencialUsuario)=>
     {
       nuevoPaciente = new Paciente(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
-        datosInscripcion.edad, datosInscripcion.dni.toString(), datosInscripcion.mail, datosInscripcionEspecifico.obraSocial.toString())
+        datosInscripcion.edad, datosInscripcion.dni.toString(), datosInscripcion.mail, true, datosInscripcionEspecifico.obraSocial.toString())
 
       this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
       .then(()=>
@@ -321,7 +321,7 @@ export class RegisterComponent
     .then((credencialUsuario)=>
     {
       nuevoEspecialista = new Especialista(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
-        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail, datosInscripcion.especialidad, false)
+        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail, false, datosInscripcion.especialidad)
 
       this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
       .then(()=>
@@ -368,7 +368,7 @@ export class RegisterComponent
     .then((credencialUsuario)=>
     {
       nuevoAdmin = new Administrador(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
-        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail)
+        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail, true)
 
       this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
       .then(()=>
