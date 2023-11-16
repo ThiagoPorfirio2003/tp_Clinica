@@ -141,6 +141,7 @@ export class AdminRegisterComponent {
 
   private cargarEspecialidades()
   {
+    /*
     const observableEspecialidades = this.servicioDB.EspecialidadesCollectionData;
 
     observableEspecialidades.subscribe((especialidadesLeidas) =>
@@ -148,6 +149,7 @@ export class AdminRegisterComponent {
         this.especialidades = especialidadesLeidas as Array<any>
       }
     )
+    */
   }
 
   public agregarEspecialidad()

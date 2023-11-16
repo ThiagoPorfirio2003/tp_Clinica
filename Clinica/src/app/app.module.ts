@@ -17,8 +17,6 @@ import { HeaderComponent } from './componentes/header/header.component';
   declarations: [
     AppComponent,
     BienvenidoComponent,
-    LoginComponent,
-    RegisterComponent,
     HeaderComponent  
   ],
   imports: [

@@ -1,7 +1,15 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { User } from 'firebase/auth';
+import { onSnapshot } from 'firebase/firestore';
+import { async } from 'rxjs';
+import { Especialista } from 'src/app/clases/usuario/Especialista';
+import { Administrador } from 'src/app/clases/usuario/administrador';
+import { Paciente } from 'src/app/clases/usuario/paciente';
 import { AlertaService } from 'src/app/servicios/alerta.service';
+import { AuthService } from 'src/app/servicios/auth.service';
 import { DataBaseService } from 'src/app/servicios/data-base.service';
+import { StorageService } from 'src/app/servicios/storage.service';
 
 @Component({
   selector: 'app-register',
@@ -10,30 +18,28 @@ import { DataBaseService } from 'src/app/servicios/data-base.service';
 })
 export class RegisterComponent 
 {
-  public tipoUsuarioNumerico : number;
-  public especialidades : Array<any>;
-  public txtLabelImagenes : string
+  public tipoUsuarioARegistrar : number;
   public tipoUsuarioTXT : string;
-  public imagenes : Array<any>;
-  @Input() tipoUsuarioLogueado : number;
-  @Output() pasarDatosRegistroEvent : EventEmitter<any>; 
+  public txtLabelImagenes : string
+
+  public especialidades : Array<string>;
+  public imagenes : Array<File>;
 
   public formularioInscripcionGeneral : FormGroup;
   public formularioInscripcionPaciente : FormGroup;
   public formularioInscripcionEspecialista : FormGroup;
 
+//#region constructor
   public constructor(public servicioFormBuilder : FormBuilder, private servicioDB : DataBaseService, 
+    private servicioAuth: AuthService, private servicioStorage : StorageService, 
     private servicioAlerta : AlertaService)
   {
-    this.especialidades = new Array<any>();
-    this.pasarDatosRegistroEvent = new EventEmitter<any>();
-    this.imagenes = new Array<any>();
-
-    this.tipoUsuarioNumerico = 1;
+    this.tipoUsuarioARegistrar = 0;
     this.tipoUsuarioTXT = 'paciente';
     this.txtLabelImagenes = '2 imagenes de perfil';
 
-    this.tipoUsuarioLogueado = 1;
+    this.especialidades = new Array<any>();
+    this.imagenes = new Array<any>();
 
     this.formularioInscripcionPaciente = this.servicioFormBuilder.group
     (
@@ -129,6 +135,8 @@ export class RegisterComponent
     )
   }
 
+  //#endregion
+  
   ngOnInit() 
   {
     this.cargarEspecialidades()
@@ -141,13 +149,17 @@ export class RegisterComponent
 
   private cargarEspecialidades()
   {
-    const observableEspecialidades = this.servicioDB.EspecialidadesCollectionData;
+    const especialidadesQuery = this.servicioDB.especialidadesQuery;
 
-    observableEspecialidades.subscribe((especialidadesLeidas) =>
+    onSnapshot(especialidadesQuery, 
+      (respuesta)=>
       {
-        this.especialidades = especialidadesLeidas as Array<any>
-      }
-    )
+        respuesta.docChanges().forEach((change)=>
+        {
+          let especialidad = change.doc.data()
+          this.especialidades.push(especialidad['nombre']);
+        })
+      })
   }
 
   public agregarEspecialidad()
@@ -159,11 +171,11 @@ export class RegisterComponent
     }
   }
 
-  public cambiarTipoUsuario(id_Selector : string)
+  public cambiarTipoUsuarioARegistrar(nuevotipoUsuarioARegistrar : number)
   {
-    this.tipoUsuarioNumerico = parseInt((<HTMLInputElement> document.getElementById(id_Selector)).value);
+    this.tipoUsuarioARegistrar = nuevotipoUsuarioARegistrar;
     
-    switch(this.tipoUsuarioNumerico)
+    switch(this.tipoUsuarioARegistrar)
     {
       case 1:
         this.txtLabelImagenes='2 imagenes de perfil';
@@ -182,65 +194,276 @@ export class RegisterComponent
     }
   }
 
-  public pasarDatosRegistro()
+  private async existeElDNI(dni : string) : Promise<boolean| string>
   {
-    let formularioEsValido : boolean = false;
-  
-    if(this.formularioInscripcionGeneral.valid)
-    {
-      let datosUsuarioTXT : any =
-      {
-        nombre: this.formularioInscripcionGeneral.controls['nombre'].value,
-        apellido: this.formularioInscripcionGeneral.controls['apellido'].value,
-        edad: this.formularioInscripcionGeneral.controls['edad'].value,
-        dni: this.formularioInscripcionGeneral.controls['dni'].value,
-        mail: this.formularioInscripcionGeneral.controls['mail'].value,
-        clave: this.formularioInscripcionGeneral.controls['clave'].value,
-        tipo : this.tipoUsuarioNumerico
-      }
+    let retorno : boolean = false;
+    let entroAlThen : boolean = false;
+    let mensajeError : string;
 
-      let datosRegistro : any =
-      {
-        datosUsuarioTXT : datosUsuarioTXT,
-        imagenesUsuario: this.imagenes,
-      }
-  
-      switch(this.tipoUsuarioNumerico)
-      {
-        case 1:
-          if(this.formularioInscripcionPaciente.valid && this.imagenes.length == 2)
-          {
-            datosUsuarioTXT.obraSocial = this.formularioInscripcionPaciente.controls['obraSocial'].value;
-            formularioEsValido = true;
-          }
-          break;
-  
-        case 2:
-          if(this.formularioInscripcionEspecialista.valid && this.imagenes.length == 1)
-          {
-            datosUsuarioTXT.especialidad =this.formularioInscripcionEspecialista.controls['especialidad'].value;
-            datosUsuarioTXT.estaHabilitado = false
-            formularioEsValido = true;
-          }
-          break;
-  
-        case 3:
-          if(this.imagenes.length == 1)
-          {
-            formularioEsValido = true;
-          }
-          break;
-      }
-  
-      if(formularioEsValido)
-        {
-          this.pasarDatosRegistroEvent.emit(datosRegistro);
-        }
-    }
-    if(!formularioEsValido)
+    await this.servicioDB.getDocRef(this.servicioDB.NombreDnisCollection, dni)
+    .then((doc)=>
     {
-      this.servicioAlerta.alertaWarning('Hay campos que no cumplen las condiciones');
-    }
+      entroAlThen = true;
+      retorno = doc.exists();
+    })
+    .catch((error)=>
+    {
+      mensajeError = JSON.stringify(error);
+    })
+
+    return new Promise<boolean| string>((resolve, reject)=>
+    {
+      if(entroAlThen)
+      {
+        resolve(retorno)
+      }
+      else
+      {
+        reject(mensajeError)
+      }
+    })
   }
 
+  private async existeLaObraSocial(obraSocial : string) : Promise<boolean| string>
+  {
+    let retorno : boolean = false;
+    let entroAlThen : boolean = false;
+    let mensajeError : string;
+
+    await this.servicioDB.getDocRef(this.servicioDB.NombreObrasSocialesCollection, obraSocial)
+    .then((doc)=>
+    {
+      entroAlThen = true;
+      retorno = doc.exists();
+    })
+    .catch((error)=>
+    {
+      mensajeError = JSON.stringify(error);
+    })
+
+    return new Promise<boolean| string>((resolve, reject)=>
+    {
+      if(entroAlThen)
+      {
+        resolve(retorno)
+      }
+      else
+      {
+        reject(mensajeError)
+      }
+    })
+  }
+
+  private registrarPaciente()
+  {
+    let datosInscripcion : any = this.formularioInscripcionGeneral.value
+    let datosInscripcionEspecifico : any = this.formularioInscripcionPaciente.value;
+    let usuarioActual : User | null = this.servicioAuth.usuarioActual;
+    let nuevoPaciente : Paciente;
+
+    this.servicioAuth.crearUsuario(datosInscripcion.mail, datosInscripcion.clave)
+    .then((credencialUsuario)=>
+    {
+      nuevoPaciente = new Paciente(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
+        datosInscripcion.edad, datosInscripcion.dni.toString(), datosInscripcion.mail, datosInscripcionEspecifico.obraSocial.toString())
+
+      this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
+      .then(()=>
+      {
+        for(let i : number = 0; i< this.imagenes.length; i++)
+        {
+          nuevoPaciente.ListPathImagen.push(this.servicioStorage.calcularNombreFotoUsuario(this.imagenes[i].name, 
+            this.servicioStorage.PacienteImgCarpetaPath, nuevoPaciente.DNI));
+            
+          this.servicioStorage.guardarUsuarioImagen(this.imagenes[i], nuevoPaciente.ListPathImagen[i])
+          .then((urlImagen)=>
+          {
+            nuevoPaciente.ListUrlImagen.push(urlImagen);
+
+            if(nuevoPaciente.ListPathImagen.length == nuevoPaciente.ListUrlImagen.length)
+            {
+              this.servicioDB.guardarDatosPaciente(nuevoPaciente)
+              .then(()=>
+              {
+                this.servicioDB.guardarTipoUsuario(nuevoPaciente.Tipo, nuevoPaciente.Id)
+                .catch((error) => console.log(error));
+                
+                this.servicioDB.guardarDatosDNI(nuevoPaciente.DNI)
+                .catch((error) => console.log(error));
+
+                this.servicioDB.guardarDatosObraSocial(nuevoPaciente.ObraSocial)
+                .catch((error) => console.log(error));
+
+                this.servicioAlerta.alertaExito('El paciente ha sido creado con exito, ahora verifica tu cuenta desde tu mail');
+              });
+            }
+          })
+          .catch(error=> console.log(error));
+        }
+      })
+      .catch(error=> console.log(error))
+
+      if(usuarioActual != null)
+      {
+        this.servicioAuth.cambiarUsuarioActual(usuarioActual);
+      }
+    })
+    .catch(error=> this.servicioAlerta.alertaErrorFirebase(error.code));
+  }
+
+  private registrarEspecialista()
+  {
+    let datosInscripcion : any = this.formularioInscripcionGeneral.value
+    let usuarioActual : User | null = this.servicioAuth.usuarioActual;
+    let nuevoEspecialista : Especialista;
+
+    this.servicioAuth.crearUsuario(datosInscripcion.mail, datosInscripcion.clave)
+    .then((credencialUsuario)=>
+    {
+      nuevoEspecialista = new Especialista(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
+        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail, datosInscripcion.especialidad, false)
+
+      this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
+      .then(()=>
+      {
+        nuevoEspecialista.PathImagen = this.servicioStorage.calcularNombreFotoUsuario(this.imagenes[0].name, 
+          this.servicioStorage.EspecialistaImgCarpetaPath, nuevoEspecialista.DNI)
+  
+        this.servicioStorage.guardarUsuarioImagen(this.imagenes[0], nuevoEspecialista.PathImagen)
+        .then((urlImagen)=>
+        {
+          nuevoEspecialista.UrlImagen = urlImagen;
+          this.servicioDB.guardarDatosEspecialista(nuevoEspecialista)
+          .then(()=>
+          {
+            this.servicioDB.guardarTipoUsuario(nuevoEspecialista.Tipo, nuevoEspecialista.Id)
+            .catch((error) => console.log(error));
+
+            this.servicioDB.guardarDatosDNI(nuevoEspecialista.DNI)
+            .catch((error) => console.log(error))
+
+            this.servicioAlerta.alertaExito('El especialista ha sido creado con exito, ahora verifica tu cuenta desde tu mail y espera ' +
+            'a que un admin autorize tu cuenta');
+          });
+        })
+        .catch(error=> console.log(error));
+      })
+      .catch(error=> console.log(error))
+
+      if(usuarioActual != null)
+      {
+        this.servicioAuth.cambiarUsuarioActual(usuarioActual);
+      }
+    })
+    .catch(error=> this.servicioAlerta.alertaErrorFirebase(error.code));
+  }
+
+  private registrarAdministrador()
+  {
+    let datosInscripcion : any = this.formularioInscripcionGeneral.value
+    let usuarioActual : User | null = this.servicioAuth.usuarioActual;
+    let nuevoAdmin : Administrador;
+
+    this.servicioAuth.crearUsuario(datosInscripcion.mail, datosInscripcion.clave)
+    .then((credencialUsuario)=>
+    {
+      nuevoAdmin = new Administrador(credencialUsuario.user.uid, datosInscripcion.nombre, datosInscripcion.apellido,
+        parseInt(datosInscripcion.edad), datosInscripcion.dni.toString(), datosInscripcion.mail)
+
+      this.servicioAuth.enviarMailVerificacion(credencialUsuario.user)
+      .then(()=>
+      {
+        nuevoAdmin.PathImagen = this.servicioStorage.calcularNombreFotoUsuario(this.imagenes[0].name, this.servicioStorage.AdministradorImgCarpetaPath,
+          nuevoAdmin.DNI)
+  
+        this.servicioStorage.guardarUsuarioImagen(this.imagenes[0], nuevoAdmin.PathImagen)
+        .then((urlImagen)=>
+        {
+          nuevoAdmin.UrlImagen = urlImagen;
+          this.servicioDB.guardarDatosAdministrador(nuevoAdmin)
+          .then(()=>
+          {
+            this.servicioDB.guardarTipoUsuario(nuevoAdmin.Tipo, nuevoAdmin.Id)
+            .catch((error) => console.log(error));
+
+            this.servicioDB.guardarDatosDNI(nuevoAdmin.DNI)
+            .catch((error) => console.log(error));
+
+            this.servicioAlerta.alertaExito('El nuevo admin ha sido creado con exito, ahora debe verificarlo desde el mail');
+          });
+        })
+        .catch(error=> console.log(error));
+      })
+      .catch(error=> console.log(error))
+
+       this.servicioAuth.cambiarUsuarioActual(usuarioActual);
+    })
+    .catch(error=> this.servicioAlerta.alertaErrorFirebase(error.code));
+  }
+
+  public registrarUsuario()
+  {
+    let todosLosFormlariosSonValidos : boolean = false;
+
+    if(this.formularioInscripcionGeneral.valid)
+    {
+      this.existeElDNI(this.formularioInscripcionGeneral.controls['dni'].value.toString())
+      .then((respuesta)=>
+      {
+        if(!respuesta)
+        {
+          switch(this.tipoUsuarioARegistrar)
+          {
+            case 1:
+              if(this.formularioInscripcionPaciente.valid)
+              {
+                todosLosFormlariosSonValidos = true;
+
+                this.existeLaObraSocial(this.formularioInscripcionPaciente.controls['obraSocial'].value.toString())
+                .then((existeObraSocial)=>
+                {
+                  if(!existeObraSocial)
+                  {
+                    this.registrarPaciente();
+                  }
+                  else
+                  {
+                    this.servicioAlerta.alertaError('La obra social corresponde a otro usuario');
+                  }
+                })
+                .catch(error => console.log(error));
+              }
+              break;
+    
+            case 2:
+              if(this.formularioInscripcionEspecialista.valid)
+              {
+                todosLosFormlariosSonValidos = true
+                this.registrarEspecialista();
+              }
+              break;
+    
+            case 3:
+              todosLosFormlariosSonValidos = true
+              this.registrarAdministrador();
+              break;
+          }
+
+          if(!todosLosFormlariosSonValidos)
+          {
+            this.servicioAlerta.alertaError('Hay datos que faltan completar o no cumplen con las condiciones');
+          }
+        }
+        else
+        {
+          this.servicioAlerta.alertaError('El DNI le pertenece a otro usuario, ingrese alguno que NO este usado');
+        }
+      })
+      .catch((error)=> console.log('Error:\n' + error))
+    }
+    else
+    {
+      this.servicioAlerta.alertaError('Hay datos que faltan completar o no cumplen con las condiciones');
+    }
+  }
 }

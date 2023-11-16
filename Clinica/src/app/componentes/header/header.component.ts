@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertaService } from 'src/app/servicios/alerta.service';
-import { DataBaseService } from 'src/app/servicios/data-base.service';
+import { AuthService } from 'src/app/servicios/auth.service';
 import { NavegacionService } from 'src/app/servicios/navegacion.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
@@ -12,7 +12,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 export class HeaderComponent {
 
   constructor(public servicioUsuario : UsuarioService, private servicioNavegacion : NavegacionService,
-    private servicioBD : DataBaseService, private servicioAlerta : AlertaService)
+    private servicioAuth : AuthService, private servicioAlerta : AlertaService)
   {
     
   }
@@ -33,7 +33,7 @@ export class HeaderComponent {
   
   private cerrarSesion()
   {
-    this.servicioBD.cerrarSesion()
+    this.servicioAuth.cerrarSesion()
     .then(()=>
     {
       this.servicioUsuario.desLoguearUsuario();

@@ -1,6 +1,23 @@
-<div class="container-sm registro">
+<div class="div_eleccionUsuario position-absolute start-50 translate-middle" *ngIf="this.tipoUsuarioARegistrar ==0">
+    <button (click)="this.cambiarTipoUsuarioARegistrar(1)" class="my-2"><img src="../../../assets/paciente.jpg"></button>
+    <button (click)="this.cambiarTipoUsuarioARegistrar(2)" class=""><img src="../../../assets/doctor.jpg"></button>
+    <button (click)="this.cambiarTipoUsuarioARegistrar(3)" class="my-2"><img src="../../../assets/admin.jpg"></button>
+</div>
+
+
+<div class="container-sm registro position-absolute top-50 start-50 translate-middle" *ngIf="this.tipoUsuarioARegistrar !=0">
     <form enctype="multipart/form-data" [formGroup]="formularioInscripcionGeneral">
-        <button class="button-40 py-2" (click)="this.pasarDatosRegistro()">Crear {{this.tipoUsuarioTXT}}</button>
+        <div class="row px-0">
+            <div class="col-2 pe-0">
+                <button class="button-40" (click)="this.cambiarTipoUsuarioARegistrar(0)">
+                    Volver
+                </button>
+            </div>
+
+            <div class="col-10 ps-0">
+                <button class="button-40" (click)="this.registrarUsuario()">Crear {{this.tipoUsuarioTXT}}</button>
+            </div>
+        </div>
 
         <div class="row py-1">
             <div class="col-6">
@@ -127,15 +144,6 @@
         </div>
 
         <div class="row py-1">
-            <div class="col-5 align-self-end">
-                <label for="selector_TipoUsuario">Tipo de usuario</label>
-                <select style="width: 100%;" size="1" id="selector_TipoUsuario" (change)="this.cambiarTipoUsuario('selector_TipoUsuario')">
-                    <option value="1">Paciente</option>
-                    <option value="2">Especialista</option>
-                    <option value="3" *ngIf="this.tipoUsuarioLogueado ==3">Administrador</option>
-                </select>
-            </div>
-            
             <div class="col-7">
                 <label for="imagenes_usuario">{{this.txtLabelImagenes}}</label>
                 <input type="file" accept=".png, .jpg, .jpeg" id="imagenes_usuario" name="imagenes[]" multiple formControlName="imagenes"
@@ -151,7 +159,7 @@
         </div>
     </form>
 
-    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioNumerico==1" [formGroup]="this.formularioInscripcionPaciente">
+    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioARegistrar==1" [formGroup]="this.formularioInscripcionPaciente">
         <div class="row pb-3">
             <div class="col-4">
                 <label for="obra_Social">Obra social</label>
@@ -175,7 +183,7 @@
         </div>
     </form>
 
-    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioNumerico==2" [formGroup]="this.formularioInscripcionEspecialista">
+    <form enctype="multipart/form-data" *ngIf="this.tipoUsuarioARegistrar==2" [formGroup]="this.formularioInscripcionEspecialista">
         <div class="row pb-3" >
             <div class="col-4">
                 <label for="nuevaEspecialidad">Nueva especialidad</label>
@@ -189,7 +197,7 @@
             <div class="col-4 align-self-end">
                 <label for="select_especialidades">Especialidad</label>
                 <select class="selector_especialidades" id="select_especialidades" size="1" formControlName="especialidad">
-                    <option *ngFor="let especialidad of this.especialidades" value={{especialidad.nombre}}>{{especialidad.nombre}}</option>
+                    <option *ngFor="let especialidad of this.especialidades" value={{especialidad}}>{{especialidad}}</option>
                 </select>
 
                 <ul class="list-group" *ngIf="this.formularioInscripcionEspecialista.controls['especialidad'].errors != null">

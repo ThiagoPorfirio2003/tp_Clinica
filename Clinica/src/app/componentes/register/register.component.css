@@ -1,5 +1,36 @@
+.div_eleccionUsuario
+{
+    top: 525px;
+    background: rgb(5, 170, 225);
+    border: black;
+    border-width: 10px;
+    width: 300px;
+    border:solid;
+    text-align: center;
+}
+
+.div_eleccionUsuario button
+{
+    border: none;
+    height: 270px;
+    width: 270px;
+    border-radius: 100%;
+    background-color: black;
+}
+
+.div_eleccionUsuario button:hover
+{
+    background-color: green;
+}
+
+.div_eleccionUsuario img
+{
+    border-radius: 50%;
+}
+
 .registro
 {
+    top: 525px;
     background: rgb(5, 170, 225);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
@@ -69,10 +100,6 @@ select
     box-sizing: border-box;
     color: #FFFFFF;
     cursor: pointer;
-    /*
-    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    */
-    
     transition-duration: .2s;
     transition-property: background-color,border-color,color,fill,stroke;
     transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);

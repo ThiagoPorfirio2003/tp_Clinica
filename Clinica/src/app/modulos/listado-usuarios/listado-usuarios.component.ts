@@ -22,6 +22,7 @@ export class ListadoUsuariosComponent {
     this.especialistas = new Array<any>();
   }
 
+  /*
   ngOnInit()
   {
     this.cargarUsuarios();
@@ -36,7 +37,7 @@ export class ListadoUsuariosComponent {
       console.log(usuariosLeidos);
       this.separarUsuarios(usuariosLeidos)
     })
-  }
+  }*/
 
   private separarUsuarios(usuarios : Array<any>)
   {
@@ -72,9 +73,11 @@ export class ListadoUsuariosComponent {
           break;
 
         case 3:
+          /*
           this.administradores.push(new Administrador(usuario.datosUsuario.id, usuario.datosUsuario.nombre, usuario.datosUsuario.apellido,
             usuario.datosUsuario.edad, usuario.datosUsuario.dni, 
             usuario.datosUsuario.mail,usuario.datosUsuario.urlImagen));
+            */
           break;
       }
     })
@@ -82,10 +85,12 @@ export class ListadoUsuariosComponent {
 
   public actualizarEspecialista(especialista : any)
   {
+    /*
     this.servicioBD.habilitarEspecialista(especialista)
     .then(()=>
     {
 
     });
+    */
   }
 }

@@ -1,6 +1,6 @@
-<div class="container-sm formulario">
+<div class="formulario position-absolute top-50 start-50 translate-middle">
     <form enctype="multipart/form-data" [formGroup]="this.formularioLogin">
-        <button class="button-40 py-2" (click)="this.pasarDatosLogIn()">Entrar</button>
+        <button class="button-40 py-2" (click)="this.ingresarDatos()">Entrar</button>
 
         <div class="px-4 pt-2">
             <label for="mail">Mail</label>
@@ -31,27 +31,14 @@
                 </li>
             </ul>
         </div>
-
-        <div class="btn-group" role="group" style="width: 100%;">
-            <button class="button-recomendacion" (click)="this.cargarPaciente()">Paciente</button>
-            <button class="button-recomendacion" (click)="this.cargarEspecialista()">Especialista</button>
-            <button class="button-recomendacion" (click)="this.cargarAdmin()">Admin</button>
-        </div>
-
-        <!-- 
-<div class="row">
-            <div class="col-4 px-0">
-                <button class="button-40 py-2" (click)="this.cargarPaciente()">Paciente</button>
-            </div>
-
-            <div class="col-4 px-0">
-                <button class="button-40 py-2" (click)="this.cargarEspecialista()">Especialista</button>
-            </div>
-
-            <div class="col-4 px-0">
-                <button class="button-40 py-2" (click)="this.cargarAdmin()">Admin</button>
-            </div>
-        </div>
-        -->
     </form>
 </div>
+
+<!-- 
+    position-absolute bottom-0 end-5
+-->
+<div class="position-absolute bottom-0 end-0 div_eleccionUsuario"  role="group" style="width: 175px; text-align: center;">
+    <button *ngFor="let usuario of usuariosPreCargados" (click)='this.cargarUsuarioPrecargado(usuario.mail, usuario.clave)'>
+        <img src={{usuario.url}}>
+    </button>
+</div>   

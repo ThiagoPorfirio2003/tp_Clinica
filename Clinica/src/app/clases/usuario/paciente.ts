@@ -5,29 +5,36 @@ export class Paciente extends UsuarioBase
     //finn : 123456
     //korexe9289@eazenity.com
     
-    private obraSocial : number;
-    private urlsImagenes : Array<string>;
+    private obraSocial : string;
+    private listUrlImagen : Array<string>;
+    private listPathImagen : Array<string>;
 
-    constructor(id : string, nombre : string, apellido : string, edad : number, dni : number,mail : string,
-        obraSocial : number, urlsImagenes : Array<string>)
+    constructor(id : string, nombre : string, apellido : string, edad : number, dni : string,mail : string,
+        obraSocial : string, listPathImagen : Array<string> = [], listUrlImagen : Array<string> = [])
     {
         super(id, nombre, apellido, edad, dni, mail, 1);
         this.obraSocial = obraSocial;
-        this.urlsImagenes = urlsImagenes;
+        this.listUrlImagen = listUrlImagen;
+        this.listPathImagen = listPathImagen;
     }
 
-    public get ObraSocial() : number
+    public get ObraSocial() : string
     {
         return this.obraSocial;
     }
 
-    public get UrlsImagenes() : Array<string>
+    public get ListUrlImagen() : Array<string>
     {
-        return this.urlsImagenes;
+        return this.listUrlImagen;
+    }
+
+    public get ListPathImagen() : Array<string>
+    {
+        return this.listPathImagen;
     }
 
     public static getDefaultPaciente() : Paciente
     {
-        return new Paciente('','','',0,0,'',0, []);
+        return new Paciente('','','',0,'','','', [],[]);
     }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertaService } from 'src/app/servicios/alerta.service';
 import { DataBaseService } from 'src/app/servicios/data-base.service';
+import { NavegacionService } from 'src/app/servicios/navegacion.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
@@ -8,17 +9,18 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
   templateUrl: './registro-admin.component.html',
   styleUrls: ['./registro-admin.component.css']
 })
-export class RegistroAdminComponent 
-{
+export class RegistroAdminComponent {
   public quiereRegistrarse : boolean
   public usuariosLeidos : Array<any>;
 
-  constructor(private servicioDB : DataBaseService, private servicioAlerta : AlertaService, public servicioUsuario : UsuarioService)
+  constructor(private servicioDB : DataBaseService, private servicioAlerta : AlertaService, public servicioUsuario : UsuarioService,
+    private servicioNavegacion : NavegacionService)
   { 
     this.quiereRegistrarse = false;
     this.usuariosLeidos = new Array<any>();
   }
 
+  /*
   ngOnInit()
   {
     this.cargarUsuarios();
@@ -30,7 +32,7 @@ export class RegistroAdminComponent
 
     observableUsuario.subscribe((usuariosLeidos) =>
     this.usuariosLeidos = usuariosLeidos as Array<any>)
-  }
+  }*/
 
   private validarPaciente(paciente : any) :boolean
   { 
@@ -64,6 +66,7 @@ export class RegistroAdminComponent
     return retorno;
   }
 
+  /*
   private async guardarDatosUsuario(datosRegistro : any)
   {
     let urlImagenes : Array<string> = new Array<string>();
@@ -141,4 +144,5 @@ export class RegistroAdminComponent
       this.servicioAlerta.alertaError(mensajeError);
     }
   }
+  */
 }

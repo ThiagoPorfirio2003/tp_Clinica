@@ -11,7 +11,7 @@
     */
     padding: 0px;
     font-family: 'Times New Roman', Times, serif;
-
+    min-width: 25%;
 }
 
 .list-group li
@@ -58,12 +58,6 @@
 
         max-width: 500px;
     }
-}
-
-select
-{
-    text-align: center;
-    width: 100%;
 }
 
 .button-40 {
@@ -118,4 +112,30 @@ select
     box-shadow: none;
     outline: 2px solid transparent;
     outline-offset: 2px;
+}
+
+.div_eleccionUsuario
+{
+    text-align: center;
+}
+
+.div_eleccionUsuario button
+{
+    border: none;
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+    background-color: black;
+}
+
+.div_eleccionUsuario button:hover
+{
+    background-color: green;
+}
+
+.div_eleccionUsuario img
+{
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
 }

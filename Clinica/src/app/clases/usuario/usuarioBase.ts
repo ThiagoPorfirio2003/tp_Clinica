@@ -13,13 +13,13 @@ export class UsuarioBase
     private nombre : string;
     private apellido : string;
     private edad : number;
-    private dni : number;
+    private dni : string;
     private mail : string;
-    private fechaDeCreacion : Date;
+  //  private fechaDeCreacion : Date;
     private tipo : number;
     private id : string;
 
-    protected constructor(id : string, nombre : string, apellido : string, edad : number, dni : number,mail : string, tipo : number)
+    protected constructor(id : string, nombre : string, apellido : string, edad : number, dni : string,mail : string, tipo : number)
     {
         this.id = id;
         this.nombre = nombre;
@@ -27,13 +27,13 @@ export class UsuarioBase
         this.edad = edad;
         this.dni = dni;
         this.mail = mail;
-        this.fechaDeCreacion = new Date();
+    //    this.fechaDeCreacion = new Date();
         this.tipo = tipo;
     }
 
     public obtenerDefaultUsuario()
     {
-        return new UsuarioBase('','','',0,0,'',0)
+        return new UsuarioBase('','','',0,'','',0)
     }
 
     public get Id() : string
@@ -56,7 +56,7 @@ export class UsuarioBase
         return this.edad;
     }
 
-    public get DNI() : number
+    public get DNI() : string
     {
         return this.dni;
     }
@@ -66,10 +66,11 @@ export class UsuarioBase
         return this.mail;
     }
 
+    /*
     public get FechaCreacion() : Date
     {
         return this.fechaDeCreacion;
-    }
+    }*/
 
     public get Tipo() : number
     {

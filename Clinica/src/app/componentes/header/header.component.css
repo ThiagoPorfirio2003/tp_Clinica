@@ -66,7 +66,7 @@
   }
   
   .button-NombreEmpresa {
-    background-color: green;
+    background-color: darkgreen;
     border: 1px solid transparent;
   
     box-sizing: border-box;
@@ -86,8 +86,23 @@
     transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
     user-select: none;
     -webkit-user-select: none;
-    pointer-events: none;
     width: auto;
+  }
+
+  .button-NombreEmpresa:hover {
+    background-color: rgb(38, 192, 38);
+  }
+  
+  .button-NombreEmpresa:focus {
+    box-shadow: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  
+  @media (min-width: 768px) {
+    .button-NombreEmpresa {
+      padding: .75rem 1.5rem;
+    }
   }
 
   .button-LogOut {

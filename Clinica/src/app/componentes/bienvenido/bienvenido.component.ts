@@ -24,7 +24,7 @@ export class BienvenidoComponent
     this.quiereRegistrarse = false;
     this.usuariosLeidos = new Array<any>();
   }
-
+/*
   ngOnInit()
   {
     this.cargarUsuarios();
@@ -36,116 +36,6 @@ export class BienvenidoComponent
 
     observableUsuario.subscribe((usuariosLeidos) =>
     this.usuariosLeidos = usuariosLeidos as Array<any>)
-  }
-
-  private validarPaciente(paciente : any) :boolean
-  { 
-    let retorno : boolean = true;
-
-    for(let i : number =0; i < this.usuariosLeidos.length;i++)
-    {
-      if(this.usuariosLeidos[i].datosUsuario.dni == paciente.dni || this.usuariosLeidos[i].datosUsuario.obraSocial == paciente.obraSocial)
-      {
-        retorno = false;
-        break;
-      }
-    }
-
-    return retorno;
-  }
-
-  private validarsNoPaciente(noPaciente : any) :boolean
-  { 
-    let retorno : boolean = true;
-
-    for(let i : number =0; i < this.usuariosLeidos.length;i++)
-    {
-      if(this.usuariosLeidos[i].datosUsuario.dni == noPaciente.dni)
-      {
-        retorno = false;
-        break;
-      }
-    }
-
-    return retorno;
-  }
-
-  private async guardarDatosUsuario(datosRegistro : any)
-  {
-    let urlImagenes : Array<string> = new Array<string>();
-    let todoBien : boolean = true;
-
-    for(let i : number =0;i<datosRegistro.imagenesUsuario.length;i++)
-    {
-      await this.servicioDB.guardarUsuarioImagen(datosRegistro.imagenesUsuario[i], datosRegistro.datosUsuarioTXT.dni)
-      .then(urlImagen=> urlImagenes.push(urlImagen))
-      .catch((respuesta)=>
-      { 
-        console.log(respuesta)
-        todoBien = false;
-      });
-    }
-
-    if(todoBien)
-    {
-      if(urlImagenes.length ==1)
-      {
-        datosRegistro.datosUsuarioTXT.urlImagen = urlImagenes[0];
-      }
-      else
-      {
-        datosRegistro.datosUsuarioTXT.urlsImagenes = urlImagenes;
-      }
-      return this.servicioDB.guardarDatosUsuario(datosRegistro.datosUsuarioTXT)
-    }
-  }
-
-  public async crearUsuario(datosRegistro : any)
-  {
-    let usuarioOriginal : any = this.servicioDB.auth.currentUser;
-    let validacionesUsuario : boolean;
-    let mensajeError : string;
-
-    if(datosRegistro.datosUsuarioTXT.tipo == 1)
-    {
-      validacionesUsuario = this.validarPaciente(datosRegistro.datosUsuarioTXT);
-      mensajeError = 'El dni u obra social pertenece a otro usuario';
-    }
-    else
-    {
-      validacionesUsuario = this.validarsNoPaciente(datosRegistro.datosUsuarioTXT);
-      mensajeError = 'El dni pertenece a otro usuario';
-    }
-
-    if(validacionesUsuario)
-    {
-      await this.servicioDB.crearUsuario(datosRegistro.datosUsuarioTXT)
-      .then((retorno)=>
-      {
-        if(usuarioOriginal != null)
-        {
-          this.servicioDB.auth.updateCurrentUser(retorno.user);
-        }
-
-        this.servicioDB.enviarMailVerificacion(retorno.user)
-        .then(()=> 
-        {
-          this.guardarDatosUsuario(datosRegistro)
-          .then(()=>
-          { 
-            this.servicioAlerta.alertaExito('Te has registrado correctamente')
-            this.quiereRegistrarse = false;
-          });
-        })
-
-      })
-      .catch(error=> this.servicioAlerta.alertaErrorFirebase(error.code));
-
-    }
-    else
-    {
-      this.servicioAlerta.alertaError(mensajeError);
-    }
   }
 
   private iniciarSesion(usuario : UsuarioBase) : void
@@ -206,7 +96,13 @@ export class BienvenidoComponent
           break;
         }
       }
+*/
 
+
+
+
+
+/*
       switch(tipoUsuario)
       {
         case 1:
@@ -233,7 +129,9 @@ export class BienvenidoComponent
             this.usuariosLeidos[posicionUsuario].datosUsuario.mail,this.usuariosLeidos[posicionUsuario].datosUsuario.urlImagen);
           break;
       }
+      
 
       return usuarioRecuperado;
     }
+    */
 }

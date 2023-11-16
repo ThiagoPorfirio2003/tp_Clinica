@@ -2,12 +2,12 @@
     <ul class="nav nav-pills">
 
         <li class="nav-item">
-            <label class="button-NombreEmpresa">Clinica la buena vida</label>
+            <button class="button-NombreEmpresa" routerLink="bienvenido">Clinica la buena vida</button>
         </li>
 
-        <section *ngIf="this.servicioUsuario.EstaLogueado; then verdadero"></section>
+        <section *ngIf="this.servicioUsuario.EstaLogueado; then estaLogueado;else noEstaLogueado"></section>
 
-       <ng-template #verdadero>
+       <ng-template #estaLogueado>
         <li class="nav-item"> 
             <button class="button-40" role="button" routerLink="/home">Home</button>
         </li>
@@ -18,6 +18,13 @@
 
         <li class="nav-item"> 
             <button class="button-LogOut" role="button" (click)="this.preguntarCerrarSesion()">Cerrar sesion</button>
+        </li>
+       </ng-template>
+
+       <ng-template #noEstaLogueado>
+        <li class="nav-item"> 
+            <button class="button-40" role="button" routerLink="access/login">Entrar</button>
+            <button class="button-40" role="button" routerLink="access/register">Registrar</button>
         </li>
        </ng-template>
 

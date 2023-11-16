@@ -4,9 +4,10 @@ import { BienvenidoComponent } from './componentes/bienvenido/bienvenido.compone
 
 const routes: Routes = 
 [
-  {path: 'bienvenido', component: BienvenidoComponent},
+  { path: 'bienvenido', component: BienvenidoComponent},
   { path: 'home', loadChildren: () => import('./modulos/home/home.module').then(m => m.HomeModule) },
-  {path: '', redirectTo: "bienvenido", pathMatch: "full"},
+  { path: 'access', loadChildren: () => import('./modulos/access-home-modul/access-home-modul.module').then(m => m.AccessHomeModulModule) },
+  { path: '', redirectTo: "bienvenido", pathMatch: "full"},
 
 
 ];

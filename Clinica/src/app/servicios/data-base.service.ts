@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Auth, User, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, doc, setDoc, updateDoc } from '@angular/fire/firestore';
-import { Storage } from '@angular/fire/storage';
-import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { Firestore, collection, collectionData, doc, setDoc, updateDoc, getDoc, query } from '@angular/fire/firestore';
+import { Administrador } from '../clases/usuario/administrador';
+import { Paciente } from '../clases/usuario/paciente';
+import { Especialista } from '../clases/usuario/Especialista';
 
 
 @Injectable({
@@ -10,59 +10,168 @@ import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 })
 export class DataBaseService {
 
-  private collectionEspecialidades;
-  private collectionUsuarios;
-  private pathUsuarioImg : string;
+  private nombrePacientesCollection : string;
+  private nombreEspecialistasCollection : string;
+  private nombreAdministradoresCollection : string;
+  private nombreEspecialidadesCollection : string;
+  private nombreDnisCollection : string;
+  private nombreObrasSocialesCollection : string;
+  private nombreTipoUsuariosCollection : string;
 
-  constructor(private firestore : Firestore, private storage : Storage, public auth : Auth) 
+
+  private pacientesCollection;
+  private especialistasCollection
+  private administradoresCollection;
+  private especialidadesCollection;
+  private dnisCollection;
+  private tipoUsuariosCollection;
+
+  constructor(private firestore : Firestore) 
   { 
-    this.pathUsuarioImg = 'imagenes/usuarios/'
-
-    this.collectionEspecialidades = collection(this.firestore, 'especialidades');
-    this.collectionUsuarios = collection(this.firestore, 'usuarios');
+    this.nombrePacientesCollection = 'pacientes';
+    this.nombreEspecialistasCollection = 'especialistas';
+    this.nombreAdministradoresCollection = 'administradores';
+    this.nombreEspecialidadesCollection = 'especialidades';
+    this.nombreDnisCollection = 'dnis';
+    this.nombreObrasSocialesCollection = 'obrasSociales';
+    this.nombreTipoUsuariosCollection = 'tipoUsuarios'
+    
+    this.pacientesCollection = collection(this.firestore, this.nombrePacientesCollection);
+    this.especialistasCollection = collection(this.firestore, this.nombreEspecialistasCollection);
+    this.administradoresCollection = collection(this.firestore, this.nombreAdministradoresCollection);
+    this.especialidadesCollection = collection(this.firestore, this.nombreEspecialidadesCollection);
+    this.dnisCollection = collection(this.firestore, this.nombreDnisCollection);
+    this.tipoUsuariosCollection = collection(this.firestore, this.nombreTipoUsuariosCollection)
   }
 
-  public get EspecialidadesCollectionData()
+  //#region get NombreCollection
+
+  public get NombrePacientesCollection() : string
   {
-    return collectionData(this.collectionEspecialidades);
+    return this.nombrePacientesCollection;
   }
 
-  public get UsuariosCollectionData()
+  public get NombreEspecialistasCollection() : string
   {
-    return collectionData(this.collectionUsuarios);
+    return this.nombreEspecialistasCollection;
   }
 
-  public crearUsuario({mail, clave} : any)
+  public get NombreAdministradoresCollection() : string
   {
-    return createUserWithEmailAndPassword(this.auth, mail, clave);
+    return this.nombreAdministradoresCollection;
   }
 
-  public enviarMailVerificacion(user : User)
+  public get NombreEspecialidadesCollection() : string
   {
-    return sendEmailVerification(user);
+    return this.nombreEspecialidadesCollection;
   }
 
-  public iniciarSesion({mail, clave} : any)
+  public get NombreDnisCollection() : string
   {
-    return signInWithEmailAndPassword(this.auth ,mail,clave);
+    return this.nombreDnisCollection;
   }
 
-  public cerrarSesion()
+  public get NombreObrasSocialesCollection() : string
   {
-    return signOut(this.auth);
+    return this.nombreObrasSocialesCollection;
   }
 
-  public habilitarEspecialista(datosUsuario : any)
+  public get NombreTipoUsuariosCollection() : string
   {
-    const docRef = doc(this.firestore, 'usuarios', datosUsuario.id);
+    return this.nombreTipoUsuariosCollection;
+  }
 
-    return updateDoc(docRef, 
-      {datosUsuario });
+  //#endregion
+
+  //#region getQuery
+
+  public get administradoresQuery()
+  {
+    return query(this.administradoresCollection);
+  }
+
+  public get pacientesQuery()
+  {
+    return query(this.pacientesCollection);
+  }
+
+  public get especialistasQuery()
+  {
+    return query(this.especialistasCollection);
+  }
+
+  public get especialidadesQuery()
+  {
+    return query(this.especialidadesCollection);
+  }
+
+  public get dnisQuery()
+  {
+    return query(this.dnisCollection);
+  }
+  //#endregion
+
+  //#region guardadoDatos
+  public guardarDatosPaciente(paciente : Paciente)
+  {
+   //El id del admin sera el mismo que el uid del auth.currentUser
+    return setDoc(doc(this.firestore, this.nombrePacientesCollection, paciente.Id),
+    {
+      id: paciente.Id,
+      tipo : paciente.Tipo,
+      nombre: paciente.Nombre,
+      apellido: paciente.Apellido,
+      edad: paciente.Edad,
+      dni: paciente.DNI,
+      mail: paciente.Mail,
+      obraSocial : paciente.ObraSocial,
+      listPathImagen : paciente.ListPathImagen,
+      listUrlImagen : paciente.ListUrlImagen
+    }
+    )
+  }
+
+  public guardarDatosEspecialista(especialista : Especialista)
+  {
+   //El id del admin sera el mismo que el uid del auth.currentUser
+    return setDoc(doc(this.firestore, this.nombreEspecialistasCollection, especialista.Id),
+    {
+      id: especialista.Id,
+      tipo : especialista.Tipo,
+      nombre: especialista.Nombre,
+      apellido: especialista.Apellido,
+      edad: especialista.Edad,
+      dni: especialista.DNI,
+      mail: especialista.Mail,
+      pathImagen : especialista.PathImagen,
+      urlImagen : especialista.UrlImagen,
+      especialidad : especialista.Especialidad,
+      estaHabilitado : especialista.EstaHabilitado
+    }
+    )
+  }
+
+  public guardarDatosAdministrador(admin : Administrador)
+  {
+   //El id del admin sera el mismo que el uid del auth.currentUser
+    return setDoc(doc(this.firestore, this.nombreAdministradoresCollection, admin.Id),
+    {
+      id: admin.Id,
+      tipo : admin.Tipo,
+      nombre: admin.Nombre,
+      apellido: admin.Apellido,
+      edad: admin.Edad,
+      dni: admin.DNI,
+      mail: admin.Mail,
+      pathImagen : admin.PathImagen,
+      urlImagen : admin.UrlImagen
+    }
+    )
   }
 
   public guardarDatosEspecialidad(nombreEspecialidad : string)
   {
-    const documentoEspecialidad = doc(this.collectionEspecialidades);
+    const documentoEspecialidad = doc(this.especialidadesCollection);
 
     return setDoc(documentoEspecialidad,
     {
@@ -70,51 +179,46 @@ export class DataBaseService {
     })
   }
 
-  private calcularNombreFotoUsuario(imagen : any, dniUsuario : number) : string
+  public guardarDatosDNI(dni : string)
   {
-    return this.pathUsuarioImg + dniUsuario + "." + Date.now() + "." + imagen.name.split(".").pop();
-  }
-
-  public async guardarUsuarioImagen(imagen : any, dniUsuario : number) : Promise<string>
-  {
-    let pathCompleto = this.calcularNombreFotoUsuario(imagen, dniUsuario);
-    let imgRef = ref(this.storage, pathCompleto)
-    let todoBien : boolean = false;
-    let mensajeRetorno : string= '';
-
-    await uploadBytes(imgRef, imagen)
-      .then(
-      ()=>getDownloadURL(imgRef)
-      .then((url) =>
-      {
-        mensajeRetorno = url;
-        todoBien = true;
-      })
-      .catch(fracaso=> mensajeRetorno = JSON.stringify(fracaso))
+    return setDoc(doc(this.firestore, this.nombreDnisCollection, dni),
+    {
+      dni : dni
+    }
     )
-    .catch(fracaso=> mensajeRetorno = JSON.stringify(fracaso))
-
-    return new Promise<string>((resolve, reject)=>
-    {
-      if(todoBien)
-      {
-        resolve(mensajeRetorno)
-      }
-      else
-      {
-        reject(mensajeRetorno)
-      }
-    })
   }
 
-  public guardarDatosUsuario(datosUsuario : any)
+  public guardarDatosObraSocial(obraSocial : string)
   {
-    const documentoUsuario = doc(this.collectionUsuarios);
-    datosUsuario.id = documentoUsuario.id;
-
-    return setDoc(documentoUsuario,
+    return setDoc(doc(this.firestore, this.nombreObrasSocialesCollection, obraSocial),
     {
-      datosUsuario
-    })
+      numero : obraSocial
+    }
+    )  
+  }
+
+  public guardarTipoUsuario(tipoUsuario : number, id_Usuario : string)
+  { 
+    return setDoc(doc(this.firestore, this.nombreTipoUsuariosCollection, id_Usuario),
+    {
+      tipo : tipoUsuario
+    }
+    )  
+  }
+  //#endregion
+  
+  public getDocRef(nombreCollection : string, idDoc : string)
+  {
+    return getDoc(doc(this.firestore, nombreCollection, idDoc));
+  }
+
+  public actualizarHabilitadoEspecialista(especialista : Especialista)
+  {
+    const docRef = doc(this.firestore, this.nombreEspecialidadesCollection, especialista.Id);
+
+    return updateDoc(docRef, 
+      {
+        estaHabilitado : especialista.EstaHabilitado
+      });
   }
 }
