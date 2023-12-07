@@ -55,4 +55,15 @@ Es accesible para el Administrador y el paciente, lo unico que cambia es que el 
 Solo es accesible para los administradores, posee informacion de todos los usuario y la opcion de habilitar o inhabilitar sus cuentas
 ![Captura de pantalla (1345)](https://github.com/ThiagoPorfirio2003/tp_Clinica/assets/98666301/80b6bfa2-265d-40b8-b08b-dbe5ac5fb7d9)
 
+### Formato favButton
+Se accede desde la lista de usuarios y permite descargar la informacion sobre los turnos del paciente que elijamos
+![Captura de pantalla (1347)](https://github.com/ThiagoPorfirio2003/tp_Clinica/assets/98666301/870e3d7a-d689-45bb-851a-70348c7de9b0)
+
+## Estadisticas
+Solo es accesible para los administradores, permite ver distintas estadisticas sobre la informacion del sistema
+![Captura de pantalla (1346)](https://github.com/ThiagoPorfirio2003/tp_Clinica/assets/98666301/2b61954e-2ca7-4df0-a414-acabe28024ab)
+
+## Mis pacientes
+Solo es accesible para los especialista, permite ver sobre cada paciente atendendido, los ultimos 3 turnos a realizarle 
+![Captura de pantalla (1348)](https://github.com/ThiagoPorfirio2003/tp_Clinica/assets/98666301/88e4f362-be7d-43be-a423-edb2645cb3de)
 
